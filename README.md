@@ -4,7 +4,7 @@
 
 <div align="center" style="display:flex;justify-content: center; align-items: center;">
     <img src="logo1.png">
-    <div style="color: #1C6FFF; background-image: linear-gradient(180deg, #1C6FFF 3%, #C821FF 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;font-family: "Rubik Spray Paint", system-ui;font-size: 48px;font-weight: 400;font-style: normal">NeuroFaceID</div>
+    <div style="color: #1C6FFF; background-image: linear-gradient(180deg, #1C6FFF 3%, #C821FF 100%); background-clip: text; -webkit-background-clip: text; -webkit-text-fill-color: transparent;font-size: 48px;font-weight: 400;font-style: normal">NeuroFaceID</div>
     <img src="logo2.png">
 </div>
 
