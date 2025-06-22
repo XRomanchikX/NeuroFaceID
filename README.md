@@ -10,12 +10,16 @@
 
 ##
 
+<div align="center" style="display:flex;justify-content: center; align-items: center;">
+
 ### 🧠 NeuroFaceID — Нейросистема распознавания лиц на основе FaceNet и KNN
 [![License](https://img.shields.io/github/license/XRomanchikX/NeuroFaceID)](LICENSE) 
 [![Build Status](https://img.shields.io/github/actions/workflow/status/XRomanchikX/NeuroFaceID/ci.yml?branch=main)](https://github.com/XRomanchikX/NeuroFaceID/actions)
 [![Python Version](https://img.shields.io/badge/Python-3.12-blue)](https://www.python.org/)
 [![PyPI Version](https://img.shields.io/pypi/v/neurofaceid)](https://pypi.org/project/neurofaceid/)
 ##
+
+</div>
 
 ### 🔍 Описание:
 NeuroFaceID — это система распознавания лиц, реализованная с использованием:
