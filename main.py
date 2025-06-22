@@ -90,7 +90,7 @@ if query_features is None:
 # KNN (Find Nearst Neighbour)
 distances, indices = knn.kneighbors([query_features])
 
-print("\nNearst image's:")
+print(f'The nearst image to: "{query_image}"')
 for i in range(len(indices[0])):
     idx = indices[0][i]
     if idx < len(filenames):
