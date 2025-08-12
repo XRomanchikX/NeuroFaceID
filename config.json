@@ -1,0 +1,5 @@
+{
+    "DATASET_DIR": "testdataset",
+    "N_NEIGHBORS": 7,
+    "DEVICE": "cuda"
+}
