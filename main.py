@@ -1,5 +1,7 @@
 import json
+from typing import NoReturn, List
 import sys
+import logging
 import torch
 from sklearn.neighbors import NearestNeighbors
 from facenet_pytorch import MTCNN, InceptionResnetV1
@@ -7,32 +9,51 @@ from PIL import Image
 import os
 import numpy as np
 
+type Features = None
+type TrainedKNN = None
+type FeaturesList = None
+type Labels = None
+type Filenames = None
+
 class NeuroFaceID:
-    def __init__(self):
-        # --- Init --- #
+    def __init__(self, logger: int = 0) -> NoReturn:
+        """
+        Инциализирование `NeuroFaceID` для работы с ним.
+
+        :type logger: bool
+        :param logger: Логирование: Включение - 1 || Выключение - 0 (default) 
+        """
+        if logger == 1:
+            logger = logging.INFO
+        else:
+            logger = logging.NOTSET
+
+        logging.Logger("NeuroFaceID", logger)
+
         try:
             self.init_config_file()
-            print("Config was init!")
+            logging.info("Config was init!")
 
             self.dataset_dir = self.CONFIG['DATASET_DIR']
             self.n_neighbors = self.CONFIG['N_NEIGHBORS']
             self.device = self.CONFIG['DEVICE'] if self.CONFIG['DEVICE'] == "cpu" else ("cuda" if torch.cuda.is_available() else "cpu")
-            print(f"Device: {self.device}, DatasetDir: {self.dataset_dir}, NumNeighborns: {self.n_neighbors}")
+            logging.info(f"Device: {self.device}, DatasetDir: {self.dataset_dir}, NumNeighborns: {self.n_neighbors}")
 
             self.init_models()
-            print("Models was init!")
+            logging.info("Models was init!")
 
             self.features_list, self.labels, self.filenames = self.init_dataset()
-            print("Dataset was init!")
+            logging.info("Dataset was init!")
 
             self.knn = self.train_knn()
-            print("KNN was trained!")
+            logging.info("KNN was trained!")
+            
         except:
             raise RuntimeError("Error code: 1\nPlease, send about this error author")
         
-        print("NeuroFaceID - ready to work!")
+        logging.info("NeuroFaceID - ready to work!")
 
-    def init_config_file(self):
+    def init_config_file(self) -> NoReturn:
         """
         Инциализация кофигурационного файла
         """
@@ -41,13 +62,13 @@ class NeuroFaceID:
                 CONFIG = json.load(f)
             self.CONFIG = CONFIG
 
-            print("Config file was loaded")
+            logging.info("Config file was loaded")
 
         except FileNotFoundError:
-            print("No such config file: `config.json`")
+            logging.info("No such config file: `config.json`")
             sys.exit(1)
 
-    def init_models(self):
+    def init_models(self) -> NoReturn:
         """
         Инциализация моделей (MTCNN && InceptionResnetV1)
         """
@@ -62,19 +83,19 @@ class NeuroFaceID:
                 device=self.device
             )
             self.resnet = InceptionResnetV1(pretrained="vggface2").to(self.device).eval()
-            print("Models (MTCNN && InceptionResnetV1) was loaded!")
+            logging.info("Models (MTCNN && InceptionResnetV1) was loaded!")
         except Exception as e:
-            print(f"Failed initialize models. Error: {e}")
+            logging.info(f"Failed initialize models. Error: {e}")
             sys.exit(1)
 
-    def extract_features(self, image):
+    def extract_features(self, image) -> Features:
         try:
             img = Image.open(image).convert('RGB')
             
             # Detection face
             img_cropped = self.MTCNN(img)
             if img_cropped is None:
-                print(f"Face wasn't found in {image}")
+                logging.info(f"Face wasn't found in {image}")
                 return None
                 
             # if a face is detected -> placing image on GPU (If supported version)
@@ -87,10 +108,10 @@ class NeuroFaceID:
             return img_embedding.squeeze().cpu().numpy()  # Always return CPU tensor
         
         except Exception as e:
-            print(f"Error in processing {image}: {str(e)}")
+            logging.info(f"Error in processing {image}: {str(e)}")
             return None
     
-    def init_dataset(self):
+    def init_dataset(self) -> List[FeaturesList, Labels, Filenames]:
         """
         Инциализация датасета
         """
@@ -112,14 +133,14 @@ class NeuroFaceID:
                     filenames.append(img_name)
 
                 else:
-                    print(f"Skiped: {img_path}")
+                    logging.info(f"Skiped: {img_path}")
 
         if len(features_list) == 0:
             raise ValueError("There are no correct images of faces in the dataset")
         else:
             return features_list, labels, filenames
     
-    def train_knn(self):
+    def train_knn(self) -> TrainedKNN:
         X = np.array(self.features_list)
 
         knn = NearestNeighbors(n_neighbors=self.n_neighbors, metric="cosine")
@@ -147,8 +168,3 @@ class NeuroFaceID:
                 print(f"Filename: {self.dataset_dir}/{self.labels[idx]}/{self.filenames[idx]}, Class: {self.labels[idx]}, Distance: {dist[0][i]:.4f}")
             else:
                 print(f"Index {idx} not included in the range")
-    
-    
-model = NeuroFaceID()
-
-model.prompt("testimage1.jpg")

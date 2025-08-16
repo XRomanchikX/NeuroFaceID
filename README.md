@@ -3,9 +3,9 @@
 <link href="https://fonts.googleapis.com/css2?family=Rubik+Spray+Paint&display=swap" rel="stylesheet">
 
 <div align="center" style="display:flex;justify-content: center; align-items: center;">
-    <img src="logo1.png">
-    <img src="logo.png">
-    <img src="logo2.png">
+    <img src="img/logo1.png">
+    <img src="img/logo.png">
+    <img src="img/logo2.png">
 </div>
 
 ##
@@ -98,28 +98,10 @@ testdataset/ ### Формат изображения - png, jpg, jpeg.
 
 ### 🪶 Пример вывода:
 ```
-dusty@archlinux ~/NeuroFaceID > python main.py 
+dusty@linux ~/NeuroFaceID > python main.py 
 
 The nearst image to: "testimage1.jpeg":
 Filename: testdataset/1/2.png, Class: 1, Distance: 0.0647
 Filename: testdataset/1/0.jpg, Class: 1, Distance: 0.0840
 Filename: testdataset/1/5.jpeg, Class: 1, Distance: 0.0896
 ```
-#
-
-### 🛠 Проект находится исключительно в релизе! Идёт процесс разработки.
-- Следующее обновление запланированно на 25.08.25
-
-<style>
-.text-gradient {
-    color: #1C6FFF;
-    background-image: linear-gradient(180deg, #1C6FFF 3%, #C821FF 100%); 
-    background-clip: text; 
-    -webkit-background-clip: text; 
-    -webkit-text-fill-color: transparent;
-    font-family: "Rubik Spray Paint", system-ui;
-    font-size: 48px;
-    font-weight: 400;
-    font-style: normal
-}
-</style>
